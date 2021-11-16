@@ -36,13 +36,14 @@ class OverlayService : AccessibilityService() {
     }
 
     fun showOverlay() {
-        wm?.addView(view, layoutParams)
+        if (!view.isAttachedToWindow) {
+            wm?.addView(view, layoutParams)
+        }
+        view.visibility = View.VISIBLE
     }
 
     fun hideOverlay() {
-        if (view.isAttachedToWindow) {
-            wm?.removeViewImmediate(view)
-        }
+        view.visibility = View.INVISIBLE
     }
 
     private val view by lazy {
